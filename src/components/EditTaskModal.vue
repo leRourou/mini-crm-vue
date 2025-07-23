@@ -321,6 +321,7 @@ import type { Contact } from '../types/Contact'
 import { useToast } from '../composables/useToast'
 import { useValidation } from '../composables/useValidation'
 import { useContactStore } from '../stores/contacts'
+import { convertEntityDatesForEditing } from '@/utils/dateUtils'
 
 const props = defineProps<{
   task: Task | null
@@ -425,8 +426,10 @@ const openEditDialog = async () => {
     ) || null
   }
 
+  const baseTask = convertEntityDatesForEditing(props.task || {}, ['dueDate'])
+
   editedTask.value = { 
-    ...props.task,
+    ...baseTask,
     contact: selectedContact
   }
   showEditDialog.value = true
